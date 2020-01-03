@@ -251,10 +251,20 @@ namespace WindowsFormsApp1
         /// <returns></returns>
         public double getAsymmentryError()
         {
-            double asymmentryError = Math.Sqrt(6.0 / (this.Count + 3));
-            return asymmentryError;
+            double asymmentryError = (6.0 * (this.Count - 1) )/ ((this.Count + 1) * (this.Count + 3));
+            return Math.Sqrt(asymmentryError);
         }
 
+        /// <summary>
+        /// Ошибка ассиметрии
+        /// </summary>
+        /// <returns></returns>
+        public double getAsymmentryRepresentativenessError()
+        {
+            double standardDeviation = this.getStandardDeviation();
+            double asymmentryError = standardDeviation / this.Count;
+            return Math.Sqrt(asymmentryError);
+        }
         /// <summary>
         /// Коэффициента эксцесса
         /// </summary>
@@ -289,15 +299,13 @@ namespace WindowsFormsApp1
 
             return 5 * Math.Sqrt(excessCritical);           
         }
+        
 
-        /// <summary>
-        /// Ошибка эксцесса
-        /// </summary>
-        /// <returns></returns>
-        public double getExcessError()
+        public double getExcessRepresentativenessError()
         {
-            double getExcessError = 2* Math.Sqrt(6.0 / (this.Count + 5));
-            return getExcessError;
+            double standardDeviation = this.getStandardDeviation();
+            double excessError = standardDeviation / this.Count;
+            return 2 * Math.Sqrt(excessError);
         }
 
         /// <summary>
@@ -320,31 +328,37 @@ namespace WindowsFormsApp1
             optionsText += "\nКоэффициент осцилляции: " + Math.Round(this.getOscillationCoefficient(), 2);
             optionsText += "\nСтандартная ошибка: " + Math.Round(this.getAverageStandardError(), 2);
             optionsText += "\nКоэффициент асимметрии: " + Math.Round(this.getAsymmentryCoefficient(), 3);
-            optionsText += "\nОшибка асимметрии: " + Math.Round(this.getAsymmentryError(), 3);
+            optionsText += "\nОшибка репрезентативности асимметрии: " + Math.Round(this.getAsymmentryRepresentativenessError(), 3);
             optionsText += "\nКритический показатель ассиметрии: " + Math.Round(this.getAsymmentryCritical(), 3);
             optionsText += "\nКоэффициент эксцесса: " + Math.Round(this.getExcessCoefficient(), 3);
-            optionsText += "\nОшибка экцесса: " + Math.Round(this.getExcessError(), 3);
+            optionsText += "\nОшибка репрезентативности экцесса: " + Math.Round(this.getExcessRepresentativenessError(), 3);
             optionsText += "\nКритический показатель эксцесса: " + Math.Round(this.getExcessCritical(), 3);
-
+            optionsText += '\n';
             return optionsText;
         }
 
 
         public bool isNormal()
         {
-            double asymmentryCoefficient = Math.Round(this.getAsymmentryCoefficient(), 3);           
-            double asymmentryError = Math.Round(this.getAsymmentryError(), 3);
-            double excessCoefficient = Math.Round(this.getExcessCoefficient(), 3);
-            double excessError = Math.Round(this.getExcessError(), 3);
+            double asymmentryCoefficient = this.getAsymmentryCoefficient();           
+            double asymmentryCritical = this.getAsymmentryCritical();       
+            double asymmentryRepresentativenessError = this.getAsymmentryRepresentativenessError();
+
+            double excessCoefficient = this.getExcessCoefficient();
+            double excessCritical = this.getExcessCritical();            
+            double excessRepresentativenessError = this.getExcessRepresentativenessError();
+
+            double tAsymmetry = Math.Abs(asymmentryCoefficient) / asymmentryRepresentativenessError;
+            double tExcess = Math.Abs(excessCoefficient) / excessRepresentativenessError;
 
 
-            //double tAsymmetry = asymmentryCoefficient / asymmentryError;
-            //double tExcess = excessCoefficient / excessError;
 
-            if ((Math.Abs(asymmentryCoefficient) < asymmentryError * 3) && (Math.Abs(excessCoefficient) < excessError * 3))
-                return true;               
+            if (((tAsymmetry < 3) && (tExcess < 3)) && ((Math.Abs(asymmentryCoefficient) < asymmentryCritical) && (Math.Abs(excessCoefficient) < excessCritical)))
+                return true;
             else
                 return false;            
+
+                    
 
         }
 
@@ -365,8 +379,7 @@ namespace WindowsFormsApp1
 
 
              double normalityProbability = f2 - f1;
-            return normalityProbability;
-            //return 0;
+            return normalityProbability;           
         }
 
 
@@ -379,7 +392,8 @@ namespace WindowsFormsApp1
         {           
 
             List<double> graphValues = new List<double>();
-            List<int> copyNumbers = sortList();
+            List<int> copyNumbers = sortList();            
+
             double averageValue = Math.Round(this.getAverageValue(), 2);
             double standardDeviation = Math.Round(this.getStandardDeviation(), 2);
 

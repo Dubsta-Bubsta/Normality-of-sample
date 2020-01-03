@@ -42,26 +42,11 @@ namespace WindowsFormsApp1
                 chart1.Series[1].Points.AddXY(i, theoreticalGraphValues[i]);
             }
         }
+       
+        
 
-        /// <summary>
-        /// Создание таблицы значений при заходе на вкладку с таблицей
-        /// </summary>
-        /// <param name="numbers"></param>
-        /// <param name="dgv"></param>
-        public static void CreateTable(List numbers, DataGridView dgv)
+        public static void FillTable(List numbers, DataGridView dgv)
         {
-            if (numbers.Count == 0)
-                dgv.Visible = false;
-            else
-                dgv.Visible = true;
-            dgv.RowCount = numbers.Count;
-
-            for (int i = 0; i < numbers.Count; i++)
-            {
-                dgv.Rows[i].Cells[0].Value = i + 1;
-                dgv.Rows[i].Cells[1].Value = numbers[i];
-            }
-
             if (numbers.Count > 15)
             {
                 dgv.Width = 166;
@@ -72,6 +57,26 @@ namespace WindowsFormsApp1
                 dgv.Width = 149;
                 dgv.Height = numbers.Count * 21 + 22;
             }
+            dgv.RowCount = numbers.Count;
+            for (int i = 0; i < numbers.Count; i++)
+            {
+                dgv.Rows[i].Cells[0].Value = i + 1;
+                dgv.Rows[i].Cells[1].Value = numbers[i];
+            }
         }
+
+        public static void CreateEmptyTable(DataGridView dgv)
+        {            
+            dgv.RowCount = 10000;
+
+            dgv.Width = 166;
+            dgv.Height = 324;           
+
+            for (int i = 0; i < 10000; i++)
+            {
+                dgv.Rows[i].Cells[0].Value = i + 1;
+            }            
+        }
+
     }
 }

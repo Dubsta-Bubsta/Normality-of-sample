@@ -1,0 +1,24 @@
+C:\Users\Арсений\Desktop\WindowsFormsApp1 - версия 2\WindowsFormsApp1\obj\Debug\WindowsFormsApp1.Form1.resources
+C:\Users\Арсений\Desktop\WindowsFormsApp1 - версия 2\WindowsFormsApp1\obj\Debug\WindowsFormsApp1.Form2.resources
+C:\Users\Арсений\Desktop\WindowsFormsApp1 - версия 2\WindowsFormsApp1\obj\Debug\normalityOfSample.csproj.GenerateResource.cache
+C:\Users\Арсений\Desktop\WindowsFormsApp1 - версия 2\WindowsFormsApp1\obj\Debug\normalityOfSample.csproj.CoreCompileInputs.cache
+C:\Users\Арсений\Desktop\WindowsFormsApp1 - версия 2\WindowsFormsApp1\bin\Debug\normalityOfSample.exe.config
+C:\Users\Арсений\Desktop\WindowsFormsApp1 - версия 2\WindowsFormsApp1\bin\Debug\normalityOfSample.exe
+C:\Users\Арсений\Desktop\WindowsFormsApp1 - версия 2\WindowsFormsApp1\bin\Debug\normalityOfSample.pdb
+C:\Users\Арсений\Desktop\WindowsFormsApp1 - версия 2\WindowsFormsApp1\obj\Debug\normalityOfSample.Properties.Resources.resources
+C:\Users\Арсений\Desktop\WindowsFormsApp1 - версия 2\WindowsFormsApp1\obj\Debug\normalityOfSample.exe
+C:\Users\Арсений\Desktop\WindowsFormsApp1 - версия 2\WindowsFormsApp1\obj\Debug\normalityOfSample.pdb
+G:\3 курс\КУРСОВОЙ ПРОЕКТ\WindowsFormsApp1 - версия 2\WindowsFormsApp1\bin\Debug\normalityOfSample.exe.config
+G:\3 курс\КУРСОВОЙ ПРОЕКТ\WindowsFormsApp1 - версия 2\WindowsFormsApp1\obj\Debug\normalityOfSample.exe
+G:\3 курс\КУРСОВОЙ ПРОЕКТ\WindowsFormsApp1 - версия 2\WindowsFormsApp1\obj\Debug\normalityOfSample.pdb
+I:\3 курс\КУРСОВОЙ ПРОЕКТ\normalityOfSample - версия 2\WindowsFormsApp1\bin\Debug\normalityOfSample.exe.config
+I:\3 курс\КУРСОВОЙ ПРОЕКТ\normalityOfSample - версия 2\WindowsFormsApp1\bin\Debug\normalityOfSample.exe
+I:\3 курс\КУРСОВОЙ ПРОЕКТ\normalityOfSample - версия 2\WindowsFormsApp1\bin\Debug\normalityOfSample.pdb
+I:\3 курс\КУРСОВОЙ ПРОЕКТ\normalityOfSample - версия 2\WindowsFormsApp1\obj\Debug\normalityOfSample.csprojAssemblyReference.cache
+I:\3 курс\КУРСОВОЙ ПРОЕКТ\normalityOfSample - версия 2\WindowsFormsApp1\obj\Debug\WindowsFormsApp1.Form1.resources
+I:\3 курс\КУРСОВОЙ ПРОЕКТ\normalityOfSample - версия 2\WindowsFormsApp1\obj\Debug\WindowsFormsApp1.Form2.resources
+I:\3 курс\КУРСОВОЙ ПРОЕКТ\normalityOfSample - версия 2\WindowsFormsApp1\obj\Debug\normalityOfSample.Properties.Resources.resources
+I:\3 курс\КУРСОВОЙ ПРОЕКТ\normalityOfSample - версия 2\WindowsFormsApp1\obj\Debug\normalityOfSample.csproj.GenerateResource.cache
+I:\3 курс\КУРСОВОЙ ПРОЕКТ\normalityOfSample - версия 2\WindowsFormsApp1\obj\Debug\normalityOfSample.csproj.CoreCompileInputs.cache
+I:\3 курс\КУРСОВОЙ ПРОЕКТ\normalityOfSample - версия 2\WindowsFormsApp1\obj\Debug\normalityOfSample.exe
+I:\3 курс\КУРСОВОЙ ПРОЕКТ\normalityOfSample - версия 2\WindowsFormsApp1\obj\Debug\normalityOfSample.pdb

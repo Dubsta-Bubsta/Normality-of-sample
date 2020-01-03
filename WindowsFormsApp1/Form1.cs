@@ -21,10 +21,11 @@ namespace WindowsFormsApp1
         string filePath = "";
         bool saveFileConfirmed = false;
         bool equalsLists = true;
-        int lowValue = 1000;
-        int highValue = 10000;
+       int lowValue = 1000;
+        int highValue = 1000000;
         int listLength = 10000;
 
+        bool listExosts = false;
         public Form1()
         {
             InitializeComponent();
@@ -32,6 +33,9 @@ namespace WindowsFormsApp1
             button2.Enabled = false;
 
             button4.Enabled = false;
+
+            button3.Enabled = false;
+            button7.Enabled = false;
         }
 
         private void Form1_Load(object sender, EventArgs e)
@@ -39,6 +43,8 @@ namespace WindowsFormsApp1
             saveFileDialog1.Filter = "Бинарный формат (*.bin)|*.bin";
             saveFileDialog2.Filter = "Текстовый формат (*.txt)|*.txt";
             openFileDialog1.Filter = "Бинарный формат (*.bin)|*.bin";
+
+            Statistics.CreateEmptyTable(dataGridView1);
         }
         /// <summary>
         /// Довпустимые значения для textBox1
@@ -102,17 +108,8 @@ namespace WindowsFormsApp1
             }
             catch { MessageBox.Show("Ошибка!"); }
         }
-
        
-        /// <summary>
-        /// Показ ошибки
-        /// </summary>
-        /// <param name="text"></param>
-        void showError(string text)
-        {
-            MessageBox.Show(text);
-        }
-
+      
         /// <summary>
         /// Нажатие на кнопку добавления вручную. Значение проверяется. 
         /// Если все хорошо - добавляется в основной список
@@ -126,11 +123,19 @@ namespace WindowsFormsApp1
                 int textBoxValue = Convert.ToInt32(textBox1.Text);
                 if (checkValue(textBoxValue))
                 {
-                    numbers.Add(textBoxValue);
-                    nonChangedNumbers.Add(textBoxValue);
-                    equalsLists = true;
-                   
-                    saveFileRequest(); 
+                    if (numbers.Count < 10000)
+                    {
+                        numbers.Add(textBoxValue);
+                        nonChangedNumbers.Add(textBoxValue);
+                        equalsLists = true;
+
+                        saveFileRequest();
+                        activateAllFunctions();
+                    }
+                    else
+                    {
+                        MessageBox.Show("Выборка не может быть больше" + listLength + "!");
+                    }                                  
                 }
             }
             catch { MessageBox.Show("Ошибка!"); }
@@ -154,6 +159,7 @@ namespace WindowsFormsApp1
 
                     saveFileConfirmed = false;
                     getPathCallCounter = 0;
+                    saveFileRequest();
                 }
                 else if (radioButton3.Checked)
                 {
@@ -172,11 +178,11 @@ namespace WindowsFormsApp1
                     nonChangedNumbers.Add(numbers[i]);
                     equalsLists = true;
                 }
-                label1.Text = numbers.Count.ToString();
+                //label1.Text = numbers.Count.ToString();
 
-
-                saveFileRequest(); 
-            }
+                activateAllFunctions();
+                               
+           }
             catch { MessageBox.Show("Ошибка задания выборки!"); }
         }
 
@@ -226,6 +232,7 @@ namespace WindowsFormsApp1
         {
             numbers.Clear();
             nonChangedNumbers.Clear();
+            disableAllFunctions();
         }
 
 
@@ -240,7 +247,7 @@ namespace WindowsFormsApp1
                 return true;
             else
             {
-                showError("Вводимое значение должно быть в диапазоне от " +  lowValue + " до " + highValue);
+                MessageBox.Show("Вводимое значение должно быть в диапазоне от " +  lowValue + " до " + highValue);
                 return false;
             }
         }
@@ -253,14 +260,27 @@ namespace WindowsFormsApp1
         private void TabControl1_SelectedIndexChanged(object sender, EventArgs e)
         {
             if (tabControl1.SelectedIndex == 1)
-                Statistics.CreateTable(numbers, dataGridView1);
+            {
+                if (numbers.Count == 0)
+                    dataGridView1.Visible = false;
+                else
+                    dataGridView1.Visible = true;
+                Statistics.FillTable(numbers, dataGridView1);
+            }                
             else if (tabControl1.SelectedIndex == 3)
             {
-                var timer = new Stopwatch();
-                timer.Start();
-                Statistics.createGraph(numbers, chart1);
-                timer.Stop();
-                label8.Text = "\n" + timer.Elapsed.ToString();
+                // var timer = new Stopwatch();
+                //timer.Start();
+                if (numbers.Count == 0)
+                    chart1.Visible = false;
+                else
+                {
+                    chart1.Visible = true;
+                    Statistics.createGraph(numbers, chart1);
+                }
+             
+                //timer.Stop();
+                //label8.Text = "\n" + timer.Elapsed.ToString();
             }
 
         }
@@ -290,24 +310,26 @@ namespace WindowsFormsApp1
         /// <param name="e"></param>
         private void Button3_Click(object sender, EventArgs e)
         {
-            var timer = new Stopwatch();
-            timer.Start();
+            //var timer = new Stopwatch();
+            //timer.Start();
             //Вычислить результат
             double normalityProbability = Math.Round(numbers.getNormalityProbability(), 3);           
            
-            string options = numbers.getOptions();           
-            string printText = options;
-           
+            string options = numbers.getOptions();
+
+            string normality = "";
             if (numbers.isNormal() == true)
             {
-                printText += "\nТак как A < Aкр и E < Eкр, то распределение нормально";
-                printText += "\nВероятность того, что данная выборка подчиняется нормальному распределению:  " + normalityProbability + "(" + normalityProbability * 100 + "%)";
+                //printText += "\n\nТак как абсолютный показатель ассиметрии (A) < ошибки репрезентативности ассиметрии (Ma) более чем в 3 раза и абсолютный показатель эксцесса (E) < ошибки репрезентативности эксцесса (Me) более чем в 3 раза, а также абсолютный показатель ассиметрии (A) < критического показателя ассиметрии (Aкр) и  абсолютный показатель эксцесса (E) < критического показателя эксцесса(Eкр), то распределение нормально";
+                normality += "Так как |A| < mA * 3 и |E| < mE * 3, а также |A| < Aкр и |E| < Eкр, то распределение можно считать нормальным";
+                normality += "\nВероятность того, что данная выборка подчиняется нормальному распределению:  " + normalityProbability + "(" + normalityProbability * 100 + "%)";
             }
             else
-                printText += "\nТак как A > Aкр или E > Eкр, то распределение не нормально";
+                normality += "Так как гипотеза о том, что |A| < mA * 3 и |E| < mE * 3, а также |A| < Aкр и |E| < Eкр, не является верной, то распределение не является нормальным";
 
-                   
-            label4.Text = printText;
+            string printText = options + normality;
+            label4.Text = options;
+            label9.Text = normality;
             if (radioButton4.Checked)
             {
             }
@@ -319,13 +341,13 @@ namespace WindowsFormsApp1
             else
             {
                 //Вывод в файл               
-                if (saveFileDialog1.ShowDialog() == DialogResult.OK)
+                if (saveFileDialog2.ShowDialog() == DialogResult.OK)
                 {
-                    FileOperations.printInfoToFile(printText, saveFileDialog1.FileName);
+                    FileOperations.printInfoToFile(printText, saveFileDialog2.FileName);
                 }
             }
-            timer.Stop();
-            label7.Text = timer.Elapsed.ToString();
+            //timer.Stop();
+            //label7.Text = timer.Elapsed.ToString();
         }
 
         /// <summary>
@@ -343,7 +365,7 @@ namespace WindowsFormsApp1
                 if (checkValue(changingValue))
                 {
                     numbers[changingIndex] = changingValue;
-                    Statistics.CreateTable(numbers, dataGridView1);
+                    Statistics.FillTable(numbers, dataGridView1);
                 }
             }
             else
@@ -401,10 +423,8 @@ namespace WindowsFormsApp1
                             nonChangedNumbers.Add(numbers[i]);
                         }
                         equalsLists = true;
-                    }                    
-
-                }
-                
+                    } 
+                }                
             }
             catch { MessageBox.Show("Ошибка сохранения!");}
 
@@ -453,9 +473,26 @@ namespace WindowsFormsApp1
         {
             Form2 form2 = new Form2(numbers);
             form2.Owner = this;
-           
-            form2.ShowDialog();           
+
+            form2.ShowDialog();
 
         }
+        public void activateAllFunctions()
+        {
+            if (numbers.Count > 0)
+            {
+                button3.Enabled = true;
+                button7.Enabled = true;
+            }
+        }
+        public void disableAllFunctions()
+        {
+            if (numbers.Count == 0)
+            {
+                button3.Enabled = false;
+                button7.Enabled = false;
+            }
+        }
+
     }
 }
